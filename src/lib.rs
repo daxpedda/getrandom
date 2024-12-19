@@ -332,13 +332,13 @@ cfg_if! {
         mod lazy;
         #[path = "rdrand.rs"] mod imp;
     } else if #[cfg(all(feature = "js",
-                        any(target_arch = "wasm32", target_arch = "wasm64"),
-                        target_os = "unknown"))] {
+                        target_arch = "wasm32",
+                        any(target_os = "unknown", target_os = "none")))] {
         #[path = "js.rs"] mod imp;
     } else if #[cfg(feature = "custom")] {
         use custom as imp;
-    } else if #[cfg(all(any(target_arch = "wasm32", target_arch = "wasm64"),
-                        target_os = "unknown"))] {
+    } else if #[cfg(all(target_arch = "wasm32",
+                        any(target_os = "unknown", target_os = "none")))] {
         compile_error!("the wasm*-unknown-unknown targets are not supported by \
                         default, you may need to enable the \"js\" feature. \
                         For more information see: \
